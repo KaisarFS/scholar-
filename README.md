@@ -1,6 +1,6 @@
 # SCHOOLAR API
 
-This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`), and their study plans (`rencana_studi`). The API allows you to perform CRU operations on these entities and manage the relationships between them.
+This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`), and their study plans (`rencana_studi`). The API allows you to perform CRUD operations on these entities and manage the relationships between them.
 
 ## Prerequisites
 
