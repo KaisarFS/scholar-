@@ -64,7 +64,6 @@ async function stores(req, res) {
         });
 }
 
-
 async function lists(req, res) {
     let { page = 1, limit = 10 } = req.query;
 
@@ -98,30 +97,22 @@ async function lists(req, res) {
                 const filteredData = data.filter(item => item.mahasiswa && item.matkul);
 
                 const groupedData = filteredData.reduce((result, item) => {
-                    const { id_mahasiswa, mahasiswa, matkul } = item;
+                    const { id_mahasiswa, mahasiswa, matkul, id } = item;
 
-                    if (!result[id_mahasiswa]) {
-                        result[id_mahasiswa] = {
-                            id: id_mahasiswa,
-                            name: mahasiswa.name,
-                            matkul: []
-                        };
-                    }
-
-                    result[id_mahasiswa].matkul.push({
-                        id: matkul.id,
-                        name: matkul.name
+                    result.push({
+                        id,  // rencana_studi.id
+                        id_mahasiswa: mahasiswa.id,
+                        name: mahasiswa.name,
+                        matkul: matkul ? [{ id: matkul.id, name: matkul.name }] : []
                     });
 
                     return result;
-                }, {});
-
-                const responseData = Object.values(groupedData);
+                }, []);
 
                 const totalPages = Math.ceil(totalItems / limit);
 
                 return res.status(200).json({
-                    data: responseData,
+                    data: groupedData,
                     pagination: {
                         totalItems,
                         totalPages,
@@ -144,7 +135,60 @@ async function lists(req, res) {
     );
 }
 
+async function info(req, res) {
+    let { id } = req.query;
+    let validation = new Validator({ id }, { id: "required|numeric" });
 
+    validation.checkAsync(
+        async () => {
+            try {
+                const studyPlan = await rencana_studi.findOne({
+                    where: { id },
+                    include: [
+                        {
+                            model: mahasiswa,
+                            attributes: ['id', 'name'],
+                        },
+                        {
+                            model: matkul,
+                            attributes: ['id', 'name'],
+                        }
+                    ]
+                });
+
+                if (!studyPlan) {
+                    return res.status(404).json({ message: 'data not found' });
+                }
+
+                const responseData = {
+                    id: studyPlan.id,
+                    mahasiswa: {
+                        id: studyPlan.mahasiswa.id,
+                        name: studyPlan.mahasiswa.name,
+                    },
+                    matkul: {
+                        id: studyPlan.matkul.id,
+                        name: studyPlan.matkul.name,
+                    },
+                    createdAt: studyPlan.createdAt,
+                    updatedAt: studyPlan.updatedAt
+                };
+
+                return res.status(200).json({ data: responseData });
+            } catch (err) {
+                return res.status(500).json({ message: err.message });
+            }
+        },
+        () => {
+            let message = [];
+            for (let key in validation.errors.all()) {
+                let value = validation.errors.all()[key];
+                message.push(value[0]);
+            }
+            return res.status(400).json({ message });
+        }
+    );
+}
 async function deleteRencanaStudi(req, res) {
     let { id } = req.params;
     let validation = new Validator({ id }, { id: "required|numeric" });
@@ -172,4 +216,4 @@ async function deleteRencanaStudi(req, res) {
     );
 }
 
-module.exports = { stores, lists, deleteRencanaStudi }
+module.exports = { stores, lists, info, deleteRencanaStudi }

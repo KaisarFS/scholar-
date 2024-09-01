@@ -5,7 +5,7 @@ const { stores, lists, info, deleteRencanaStudi } = require('../controllers/renc
 router
 .get('/lists', lists)
 .post('/stores', stores)
-// .get('/detail', info)
+.get('/info', info)
 .delete('/:id', deleteRencanaStudi)
 
 module.exports = router;
