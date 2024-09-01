@@ -95,7 +95,9 @@ async function lists(req, res) {
                     ]
                 });
 
-                const groupedData = data.reduce((result, item) => {
+                const filteredData = data.filter(item => item.mahasiswa && item.matkul);
+
+                const groupedData = filteredData.reduce((result, item) => {
                     const { id_mahasiswa, mahasiswa, matkul } = item;
 
                     if (!result[id_mahasiswa]) {
@@ -143,4 +145,31 @@ async function lists(req, res) {
 }
 
 
-module.exports = { stores, lists }
+async function deleteRencanaStudi(req, res) {
+    let { id } = req.params;
+    let validation = new Validator({ id }, { id: "required|numeric" });
+    validation.checkAsync(
+        async () => {
+            try {
+                const studyPlan = await rencana_studi.findOne({ where: { id } });
+                if (!studyPlan) {
+                    return res.status(404).json({ message: 'data not found' });
+                }
+                await rencana_studi.destroy({ where: { id } });
+                return res.status(200).json({ message: 'successfully deleted' });
+            } catch (err) {
+                return res.status(500).json({ message: err.message });
+            }
+        },
+        () => {
+            let message = [];
+            for (let key in validation.errors.all()) {
+                let value = validation.errors.all()[key];
+                message.push(value[0]);
+            }
+            return res.status(401).json({ message });
+        }
+    );
+}
+
+module.exports = { stores, lists, deleteRencanaStudi }

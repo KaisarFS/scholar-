@@ -74,6 +74,7 @@ function table_rencana_studi() {
           model: 'mahasiswa', 
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       id_matkul: {
         type: Sequelize.BIGINT,
@@ -82,6 +83,7 @@ function table_rencana_studi() {
           model: 'matkul', 
           key: 'id',
         },
+        onDelete: 'CASCADE', 
       },
     },
     {
@@ -99,9 +101,9 @@ db.mahasiswa = table_mahasiswa();
 db.rencana_studi = table_rencana_studi();
 
 // Define associations
-db.rencana_studi.belongsTo(db.mahasiswa, { foreignKey: 'id_mahasiswa' });
-db.rencana_studi.belongsTo(db.matkul, { foreignKey: 'id_matkul' });
-db.mahasiswa.hasMany(db.rencana_studi, { foreignKey: 'id_mahasiswa' });
-db.matkul.hasMany(db.rencana_studi, { foreignKey: 'id_matkul' });
+db.rencana_studi.belongsTo(db.mahasiswa, { foreignKey: 'id_mahasiswa', onDelete: 'CASCADE' });
+db.rencana_studi.belongsTo(db.matkul, { foreignKey: 'id_matkul', onDelete: 'CASCADE' });
+db.mahasiswa.hasMany(db.rencana_studi, { foreignKey: 'id_mahasiswa', onDelete: 'CASCADE' });
+db.matkul.hasMany(db.rencana_studi, { foreignKey: 'id_matkul', onDelete: 'CASCADE' });
 
 module.exports = db;
