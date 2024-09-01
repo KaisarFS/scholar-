@@ -96,4 +96,32 @@ async function lists(req, res) {
         }
     );
 }
-module.exports = { stores, lists, info }
+
+async function deleteMatkul(req, res) {
+    let { id } = req.params;
+    let validation = new Validator({ id }, { id: "required|numeric" });
+    validation.checkAsync(
+        async () => {
+            try {
+                const course = await matkul.findOne({ where: { id } });
+                if (!course) {
+                    return res.status(404).json({ message: 'data not found' });
+                }
+                await matkul.destroy({ where: { id } });
+                return res.status(200).json({ message: 'successfully deleted' });
+            } catch (err) {
+                return res.status(500).json({ message: err.message });
+            }
+        },
+        () => {
+            let message = [];
+            for (let key in validation.errors.all()) {
+                let value = validation.errors.all()[key];
+                message.push(value[0]);
+            }
+            return res.status(401).json({ message });
+        }
+    );
+}
+
+module.exports = { stores, lists, info, deleteMatkul }
