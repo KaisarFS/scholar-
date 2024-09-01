@@ -1,4 +1,3 @@
-
 # SCHOOLAR API
 
 This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`), and their study plans (`rencana_studi`). The API allows you to perform CRU operations on these entities and manage the relationships between them.
@@ -12,12 +11,14 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/KaisarFS/scholar-api
    cd scholar-api
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -103,6 +104,24 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 - **Errors:**
   - `400 Bad Request`: If pagination parameters are invalid.
 
+#### **Delete Students (Mahasiswa)**
+
+- **Endpoint:** `DELETE /mahasiswa/:id`
+- **Description:** Deletes a mahasiswa by its ID.
+- **URL Parameters:**
+  - `id` (required): The mahasiswa ID.
+- **Response:**
+  ```json
+  {
+    {
+      "message": "successfully deleted"
+    }
+  }
+  ```
+- **Errors:**
+  - `400 Bad Request`: If the `id` parameter is missing or invalid.
+  - `404 Not Found`: If the mahasiswa with the given ID does not exist.
+
 ### 2. **Courses (`matkul`)**
 
 #### **Create a Course**
@@ -173,6 +192,24 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 - **Errors:**
   - `400 Bad Request`: If pagination parameters are invalid.
 
+#### **Delete Course**
+
+- **Endpoint:** `DELETE /matkul/:id`
+- **Description:** Deletes a matkul by its ID.
+- **URL Parameters:**
+  - `id` (required): The matkul ID.
+- **Response:**
+  ```json
+  {
+    {
+      "message": "successfully deleted"
+    }
+  }
+  ```
+- **Errors:**
+  - `400 Bad Request`: If the `id` parameter is missing or invalid.
+  - `404 Not Found`: If the matkul with the given ID does not exist.
+
 ### 3. **Study Plans (`rencana_studi`)**
 
 #### **Create a Study Plan**
@@ -229,6 +266,54 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
   ```
 - **Errors:**
   - `400 Bad Request`: If pagination parameters are invalid.
+
+#### **Get Study Plan (rencana_studi) Information**
+
+- **Endpoint:** `GET /rencana_studi/info`
+- **Description:** Retrieves a study plan information by its ID.
+- **Query Parameters:**
+  - `id` (required): The study plan (rencana_studi) ID.
+- **Response:**
+
+  ```json
+  {
+    "data": {
+      "id": 1,
+      "mahasiswa": {
+        "id_mahasiswa": 123,
+        "name": "John Doe"
+      },
+      "matkul": {
+        "id": 2,
+        "name": "Mathematics"
+      },
+      "createdAt": "2024-09-01T03:33:07.000Z",
+      "updatedAt": "2024-09-01T03:33:07.000Z"
+    }
+  }
+  ```
+
+- **Errors:**
+  - `400 Bad Request`: If the `id` parameter is missing or invalid.
+  - `404 Not Found`: If the study plan with the given ID does not exist.
+
+#### **Delete Study Plan**
+
+- **Endpoint:** `DELETE /rencana_studi/:id`
+- **Description:** Deletes a study plan by its ID.
+- **URL Parameters:**
+  - `id` (required): The study plan ID.
+- **Response:**
+  ```json
+  {
+    {
+      "message": "successfully deleted"
+    }
+  }
+  ```
+- **Errors:**
+  - `400 Bad Request`: If the `id` parameter is missing or invalid.
+  - `404 Not Found`: If the study plan with the given ID does not exist.
 
 ## Validation
 
