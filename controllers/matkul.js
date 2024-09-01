@@ -98,7 +98,7 @@ async function lists(req, res) {
 }
 
 async function deleteMatkul(req, res) {
-    let { id } = req.params;
+    let { id } = req.query;
     let validation = new Validator({ id }, { id: "required|numeric" });
     validation.checkAsync(
         async () => {
@@ -123,5 +123,6 @@ async function deleteMatkul(req, res) {
         }
     );
 }
+
 
 module.exports = { stores, lists, info, deleteMatkul }

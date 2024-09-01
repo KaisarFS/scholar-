@@ -97,8 +97,9 @@ async function lists(req, res) {
     );
 }
 
+
 async function deleteMahasiswa(req, res) {
-    let { id } = req.params;
+    let { id } = req.query; 
     let validation = new Validator({ id }, { id: "required|numeric" });
     validation.checkAsync(
         async () => {
@@ -123,5 +124,7 @@ async function deleteMahasiswa(req, res) {
         }
     );
 }
+
+
 
 module.exports = { stores, lists, info, deleteMahasiswa }
