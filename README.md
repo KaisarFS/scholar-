@@ -106,9 +106,9 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 
 #### **Delete Students (Mahasiswa)**
 
-- **Endpoint:** `DELETE /mahasiswa/:id`
+- **Endpoint:** `DELETE /mahasiswa/delete?id=1`
 - **Description:** Deletes a mahasiswa by its ID.
-- **URL Parameters:**
+- **Query Parameters:**
   - `id` (required): The mahasiswa ID.
 - **Response:**
   ```json
@@ -194,9 +194,9 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 
 #### **Delete Course**
 
-- **Endpoint:** `DELETE /matkul/:id`
+- **Endpoint:** `DELETE /matkul/delete?id=1`
 - **Description:** Deletes a matkul by its ID.
-- **URL Parameters:**
+- **Query Parameters:**
   - `id` (required): The matkul ID.
 - **Response:**
   ```json
@@ -299,9 +299,9 @@ This API provides endpoints to manage students (`mahasiswa`), courses (`matkul`)
 
 #### **Delete Study Plan**
 
-- **Endpoint:** `DELETE /rencana_studi/:id`
+- **Endpoint:** `DELETE /rencana_studi/delete?id=1`
 - **Description:** Deletes a study plan by its ID.
-- **URL Parameters:**
+- **Query Parameters:**
   - `id` (required): The study plan ID.
 - **Response:**
   ```json

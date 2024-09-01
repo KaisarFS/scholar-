@@ -190,7 +190,7 @@ async function info(req, res) {
     );
 }
 async function deleteRencanaStudi(req, res) {
-    let { id } = req.params;
+    let { id } = req.query; 
     let validation = new Validator({ id }, { id: "required|numeric" });
     validation.checkAsync(
         async () => {
@@ -215,5 +215,6 @@ async function deleteRencanaStudi(req, res) {
         }
     );
 }
+
 
 module.exports = { stores, lists, info, deleteRencanaStudi }

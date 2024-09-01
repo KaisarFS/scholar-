@@ -6,6 +6,7 @@ router
 .post('/stores', stores)
 .get('/lists', lists)
 .get("/info", info)
-.delete('/:id', deleteMatkul)
+.delete('/delete', deleteMatkul)
+
 
 module.exports = router;
